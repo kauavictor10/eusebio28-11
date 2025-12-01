@@ -1411,10 +1411,7 @@
           <!-- Card 1 -->
           <article class="property-card">
             <div class="card-image">
-              <img
-                src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop"
-                alt="Gênesis - Àgora"
-              />
+              <img src="casas.img/casagenesis.jpg" alt="Gênesis - Àgora" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Gênesis - Àgora</h3>
@@ -1568,13 +1565,7 @@
           </article>
         </div>
 
-        <div class="dots">
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+        <div class="dots" data-section="lancamentos"></div>
       </section>
 
       <!-- LOTEAMENTOS -->
@@ -1656,13 +1647,7 @@
           </article>
         </div>
 
-        <div class="dots">
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+        <div class="dots" data-section="loteamentos"></div>
       </section>
 
       <!-- CASAS -->
@@ -1831,13 +1816,7 @@
           </article>
         </div>
 
-        <div class="dots">
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+        <div class="dots" data-section="casas"></div>
       </section>
 
       <!-- APARTAMENTOS -->
@@ -1907,7 +1886,7 @@
           <article class="property-card">
             <div class="card-image">
               <img
-                src="predios/prediomadriresidence.png"
+                src="predios/prediobarcelonaresidence.jpg"
                 alt="Madri Residence"
               />
             </div>
@@ -2012,13 +1991,7 @@
           </article>
         </div>
 
-        <div class="dots">
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+        <div class="dots" data-section="apartamentos"></div>
       </section>
 
       <!-- POR QUE MORAR NO EUSÉBIO - COM FOTOS NA LATERAL -->
@@ -2361,6 +2334,8 @@
           class="footer-logo"
         />
 
+        <p class="footer-company">RE/MAX Seu Imóvel</p>
+
         <div class="footer-info">
           <p class="footer-address">
             Avenida Washington Soares, 8660 B<br />
@@ -2466,9 +2441,55 @@
         }
       }
 
+      // CRIAR DOTS DINÂMICOS E ATUALIZAR COM SCROLL
+      function setupCarouselDots() {
+        const sections = document.querySelectorAll(".section");
+
+        sections.forEach((section) => {
+          const grid = section.querySelector(".cards-grid");
+          const dotsContainer = section.querySelector(".dots");
+
+          if (!grid || !dotsContainer) return;
+
+          const cards = grid.querySelectorAll(".property-card");
+          const numCards = cards.length;
+
+          // Limpar dots existentes
+          dotsContainer.innerHTML = "";
+
+          // Criar dots baseado na quantidade real de cards
+          for (let i = 0; i < numCards; i++) {
+            const dot = document.createElement("div");
+            dot.className = "dot";
+            if (i === 0) dot.classList.add("active");
+            dotsContainer.appendChild(dot);
+          }
+
+          // Atualizar dots conforme o scroll
+          grid.addEventListener("scroll", () => {
+            const scrollLeft = grid.scrollLeft;
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 15;
+            const activeIndex = Math.round(scrollLeft / (cardWidth + gap));
+
+            const dots = dotsContainer.querySelectorAll(".dot");
+            dots.forEach((dot, index) => {
+              dot.classList.toggle("active", index === activeIndex);
+            });
+          });
+        });
+      }
+
       // Executar quando carregar
-      window.addEventListener("DOMContentLoaded", setupMobileCarousel);
-      window.addEventListener("resize", setupMobileCarousel);
+      window.addEventListener("DOMContentLoaded", () => {
+        setupMobileCarousel();
+        setupCarouselDots();
+      });
+
+      window.addEventListener("resize", () => {
+        setupMobileCarousel();
+        setupCarouselDots();
+      });
     </script>
     <a
       href="https://api.whatsapp.com/send/?phone=5585997405443&text=Olá%2C+quero+mais+informações"
