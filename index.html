@@ -968,6 +968,38 @@
 
       /* Responsividade Mobile */
       @media (max-width: 768px) {
+        /* CAROUSEL MOBILE - CARDS DESLIZÁVEIS */
+        .section .cards-grid {
+          display: flex !important;
+          flex-direction: row !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          gap: 15px !important;
+          padding: 0 20px !important;
+          margin-left: -20px !important;
+          margin-right: -20px !important;
+          grid-template-columns: none !important;
+        }
+
+        .section .cards-grid::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+
+        .section .cards-grid .property-card {
+          flex: 0 0 85% !important;
+          scroll-snap-align: center;
+          max-width: 350px !important;
+          min-width: 280px !important;
+          aspect-ratio: 1 / 1.4;
+          display: flex !important;
+          flex-direction: column !important;
+        }
+
         .header-text {
           font-size: 20px;
           padding: 30px 0 40px;
@@ -1228,15 +1260,6 @@
           gap: 10px;
         }
 
-        .cards-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-
-        .property-card {
-          aspect-ratio: 1 / 1.4;
-        }
-
         .section-title {
           font-size: 32px;
         }
@@ -1388,7 +1411,10 @@
           <!-- Card 1 -->
           <article class="property-card">
             <div class="card-image">
-              <img src="casas.img/casagenesis.jpg" alt="Gênesis - Àgora" />
+              <img
+                src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop"
+                alt="Gênesis - Àgora"
+              />
             </div>
             <div class="card-body">
               <h3 class="card-title">Gênesis - Àgora</h3>
@@ -2410,6 +2436,39 @@
           menu.classList.remove("active");
         }
       });
+
+      // FORÇAR CAROUSEL NO MOBILE
+      function setupMobileCarousel() {
+        if (window.innerWidth <= 768) {
+          const cardsGrids = document.querySelectorAll(".cards-grid");
+          cardsGrids.forEach((grid) => {
+            // Forçar estilos inline para garantir
+            grid.style.display = "flex";
+            grid.style.flexDirection = "row";
+            grid.style.overflowX = "auto";
+            grid.style.overflowY = "hidden";
+            grid.style.scrollSnapType = "x mandatory";
+            grid.style.webkitOverflowScrolling = "touch";
+            grid.style.gap = "15px";
+            grid.style.padding = "0 20px";
+            grid.style.marginLeft = "-20px";
+            grid.style.marginRight = "-20px";
+
+            // Forçar cards
+            const cards = grid.querySelectorAll(".property-card");
+            cards.forEach((card) => {
+              card.style.flex = "0 0 85%";
+              card.style.scrollSnapAlign = "center";
+              card.style.maxWidth = "350px";
+              card.style.minWidth = "280px";
+            });
+          });
+        }
+      }
+
+      // Executar quando carregar
+      window.addEventListener("DOMContentLoaded", setupMobileCarousel);
+      window.addEventListener("resize", setupMobileCarousel);
     </script>
     <a
       href="https://api.whatsapp.com/send/?phone=5585997405443&text=Olá%2C+quero+mais+informações"
